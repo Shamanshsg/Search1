@@ -1,0 +1,15 @@
+C:\c#\Search1\obj\Debug\net6.0\Search1.csproj.AssemblyReference.cache
+C:\c#\Search1\obj\Debug\net6.0\Search1.GeneratedMSBuildEditorConfig.editorconfig
+C:\c#\Search1\obj\Debug\net6.0\Search1.AssemblyInfoInputs.cache
+C:\c#\Search1\obj\Debug\net6.0\Search1.AssemblyInfo.cs
+C:\c#\Search1\obj\Debug\net6.0\Search1.csproj.CoreCompileInputs.cache
+C:\c#\Search1\bin\Debug\net6.0\Search1.exe
+C:\c#\Search1\bin\Debug\net6.0\Search1.deps.json
+C:\c#\Search1\bin\Debug\net6.0\Search1.runtimeconfig.json
+C:\c#\Search1\bin\Debug\net6.0\Search1.dll
+C:\c#\Search1\bin\Debug\net6.0\Search1.pdb
+C:\c#\Search1\obj\Debug\net6.0\Search1.dll
+C:\c#\Search1\obj\Debug\net6.0\ref\Search1.dll
+C:\c#\Search1\obj\Debug\net6.0\Search1.pdb
+C:\c#\Search1\obj\Debug\net6.0\Search1.genruntimeconfig.cache
+C:\c#\Search1\obj\Debug\net6.0\refint\Search1.dll

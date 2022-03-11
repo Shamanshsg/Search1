@@ -22,6 +22,10 @@ namespace Search1
     int time = 0;
     int col = 0;
     int z = 0;
+    public List<List<int>> SCCMAS = new List<List<int>>();
+
+
+    
 
 
     public Graph()
@@ -64,7 +68,6 @@ namespace Search1
         if (!wereD.Contains(t))
         {
             wereD.Add(t);
-            w++;
         }
         for (int i3 = 0; i3 < list[t-1].Count; i3++)
         {
@@ -448,6 +451,108 @@ namespace Search1
             }
         }
         edge++;
+    }
+
+
+    public void SCC()
+    {
+        List<int> exit = new List<int>(v);
+        for (int i = 0; i < v; i++)
+        {
+            exit.Add(0);
+        }
+        for (int i = 1; i <= v; i++)
+        {
+            if (!wereD.Contains(i))
+            {
+                DFSSCC( i, exit);
+            }
+        }
+        List<int> vertices = new List<int>();
+        for (int i = 0; i < v*2; i++)
+        {
+            if (exit.Contains(i))
+            {
+                vertices.Add(exit.IndexOf(i) + 1);
+            }
+        }
+        vertices.Reverse();
+        for (int i = 0; i < v; i++)
+        {
+            listCH.Add(new List<int>());
+        }
+        infertile();
+        pinFS(vertices);
+        List<int> push = new List<int>();
+        int pushs = 0;
+        int pop = 0;
+        for (int i = 1; i <= v; i++)
+        {
+            if (!wereDC.Contains(i))
+            {
+                DFSSCCv2( i, vertices);
+                SCCMAS.Add(new List<int>());
+                push.AddRange(wereDC);
+                push.RemoveRange(0, pushs);
+                pushs = wereDC.Count;
+                SCCMAS[pop].AddRange(push);
+                pop++;
+                push.Clear();
+            }
+        }
+    }
+    public void infertile()
+    {
+         for (int i = 0; i < v; i++)
+        {
+            foreach (var i2 in list[i])
+            {
+                listCH[i2-1].Add(i+1);
+                listCH[i2-1].Sort();
+            }
+        }
+    }
+
+    private void DFSSCC( int t, List<int> exit)
+    {
+        time++;
+        if (!wereD.Contains(t))
+        {
+            wereD.Add(t);
+            w++;
+        }
+        for (int i3 = 0; i3 < list[t-1].Count; i3++)
+        {
+            
+            if (!wereD.Contains(list[t-1][i3]))
+            {
+                DFSSCC(list[t-1][i3],exit);
+            }
+
+
+        }
+        exit[t - 1] = time++;
+    }
+
+    public void DFSSCCv2(int t, List<int> vertices)
+    {
+        if (!wereDC.Contains(t))
+        {
+            wereDC.Add(t);
+        }
+        for (int i3 = 0; i3 < vertices.Count; i3++)
+        {
+            for (int i4 = 0; i4 < listCH[t-1].Count; i4++)
+            {
+                if (!wereDC.Contains(listCH[t-1][i4]) && listCH[t-1].Contains(vertices[i3]))
+                {
+                    DFSSCCv2(listCH[t-1][i4], vertices);
+                }
+            }
+            
+
+
+        }
     }
 }
 }

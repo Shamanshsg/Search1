@@ -6,8 +6,6 @@ using Search1;
 namespace Search;
 
 
-
-
 class search1
 {
 
@@ -25,6 +23,7 @@ class search1
         System.Console.WriteLine("Связанность-3");
         System.Console.WriteLine("Цикличность-4");
         System.Console.WriteLine("Предок-5");
+        System.Console.WriteLine("Компоненты SCC-6");
         int choice = Convert.ToInt32(Console.ReadLine());
         switch (choice)
         {
@@ -68,10 +67,13 @@ class search1
                 g.Sancestor(start, end);
             break;
 
+            case 6:
+            g.SCC();
+            g.pin(g.SCCMAS);
+            break;
+
             case 8:
-            g.pin(g.list);
-            System.Console.WriteLine(" ");
-            g.copy();
+            g.SCC();
             g.pin(g.listCH);
             break;
         }
