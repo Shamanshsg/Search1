@@ -75,7 +75,8 @@ class search1
             break;
 
             case 7:
-
+                g.Condensation();
+                g.pin(g.listCon);
             break;
 
             case 8:

@@ -23,6 +23,7 @@ namespace Search1
     int col = 0;
     int z = 0;
     public List<List<int>> SCCMAS = new List<List<int>>();
+    public List<List<int>> listCon = new List<List<int>>();
 
 
     
@@ -482,14 +483,16 @@ namespace Search1
             listCH.Add(new List<int>());
         }
         infertile();
+        // pin(listCH);
+        // pinFS(vertices);
         List<int> push = new List<int>();
         int pushs = 0;
         int pop = 0;
-        for (int i = 1; i <= v; i++)
+        for (int i = 0; i < v; i++)
         {
-            if (!wereDC.Contains(i))
+            if (!wereDC.Contains(vertices[i]))
             {
-                DFSSCCv2( i, vertices);
+                DFSSCCv2( vertices[i], vertices);
                 SCCMAS.Add(new List<int>());
                 push.AddRange(wereDC);
                 push.RemoveRange(0, pushs);
@@ -580,5 +583,34 @@ namespace Search1
         pinFS(vertices);
     }
 
+
+    public void Condensation()
+    {
+        SCC();
+        int[] colors = new int[v];
+        for (int i = 0; i < SCCMAS.Count; i++)
+        {
+            for (int i1 = 0; i1 < SCCMAS[i].Count; i1++)
+            {
+                colors[SCCMAS[i][i1] - 1] = i+1;
+            }
+        }
+        for (int i = 0; i < SCCMAS.Count; i++)
+        {
+            listCon.Add(new List<int>());
+        }
+        for (int i = 0; i < list.Count; i++)
+        {
+            for (int i1 = 0; i1 < list[i].Count; i1++)
+            {
+                if (colors[i] != colors[list[i][i1] - 1] )
+                {
+                    listCon[colors[i] - 1].Add(colors[list[i][i1] - 1]);
+                    listCon[colors[i] - 1].Sort();
+                }
+            }
+        }
+
+    }
 }
 }
