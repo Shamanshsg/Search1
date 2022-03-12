@@ -24,6 +24,8 @@ class search1
         System.Console.WriteLine("Цикличность-4");
         System.Console.WriteLine("Предок-5");
         System.Console.WriteLine("Компоненты SCC-6");
+        System.Console.WriteLine("Конденсация-7");
+        System.Console.WriteLine("Топология-8");
         int choice = Convert.ToInt32(Console.ReadLine());
         switch (choice)
         {
@@ -68,13 +70,22 @@ class search1
             break;
 
             case 6:
-            g.SCC();
-            g.pin(g.SCCMAS);
+                g.SCC();
+                g.pin(g.SCCMAS);
+            break;
+
+            case 7:
+
             break;
 
             case 8:
-            g.SCC();
-            g.pin(g.listCH);
+                g.topology();
+            break;
+
+
+            case 10:
+                g.SCC();
+                g.pin(g.listCH);
             break;
         }
     }

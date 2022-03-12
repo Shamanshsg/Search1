@@ -482,7 +482,6 @@ namespace Search1
             listCH.Add(new List<int>());
         }
         infertile();
-        pinFS(vertices);
         List<int> push = new List<int>();
         int pushs = 0;
         int pop = 0;
@@ -554,5 +553,32 @@ namespace Search1
 
         }
     }
+
+    public void topology()
+    {
+        List<int> exit = new List<int>(v);
+        for (int i = 0; i < v; i++)
+        {
+            exit.Add(0);
+        }
+        for (int i = 1; i <= v; i++)
+        {
+            if (!wereD.Contains(i))
+            {
+                DFSSCC( i, exit);
+            }
+        }
+        List<int> vertices = new List<int>();
+        for (int i = 0; i < v*2; i++)
+        {
+            if (exit.Contains(i))
+            {
+                vertices.Add(exit.IndexOf(i) + 1);
+            }
+        }
+        vertices.Reverse();
+        pinFS(vertices);
+    }
+
 }
 }
