@@ -33,7 +33,7 @@ namespace Search1
     {
 
     }
-
+// НЕ ПРАВИЛЬНО БЛЯТЬ!!!!
     public void BFS(int t)
     {
         for (int i = 0; i < list[t-1].Count; i++)
@@ -56,8 +56,8 @@ namespace Search1
             }
         for (int i3 = 0; i3 < turn[t-1].Count; i3++)
         { 
-            int p = turn[t-1][i3];
-            turn[t-1].RemoveAt(i3);
+            int p = turn[t-1][0];
+            turn[t-1].RemoveAt(0);
             BFS(p);
         }
 
