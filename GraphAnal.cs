@@ -18,7 +18,7 @@ namespace Search1
     private int p1 = 0;
     public List<List<int>> listCH = new List<List<int>>();
     public List<int> strongs = new List<int>();
-    private int edge = 0;
+    public int edge = 0;
     int time = 0;
     int col = 0;
     int z = 0;
@@ -438,7 +438,7 @@ namespace Search1
     }
 
 //считают ребра
-    private void ed()
+    public void ed()
     {
         for (int i = 0; i < p1-1; i++)
         {

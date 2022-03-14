@@ -25,14 +25,14 @@ class search1
                 Console.WriteLine("С какой вершины начнем?");
                 int t = Convert.ToInt32(Console.ReadLine());
                 System.Console.WriteLine("Что ищем?");
-                System.Console.WriteLine("DFS-1");
-                System.Console.WriteLine("BFS-2");
-                System.Console.WriteLine("Связанность-3");
-                System.Console.WriteLine("Цикличность-4");
-                System.Console.WriteLine("Предок-5");
-                System.Console.WriteLine("Компоненты SCC-6");
-                System.Console.WriteLine("Конденсация-7");
-                System.Console.WriteLine("Топология-8");
+                System.Console.WriteLine("DFS - 1");
+                System.Console.WriteLine("BFS - 2");
+                System.Console.WriteLine("Связанность - 3");
+                System.Console.WriteLine("Цикличность - 4");
+                System.Console.WriteLine("Предок - 5");
+                System.Console.WriteLine("Компоненты SCC - 6");
+                System.Console.WriteLine("Конденсация - 7");
+                System.Console.WriteLine("Топология - 8");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
             {
@@ -101,9 +101,30 @@ class search1
             case 2:
                 Console.WriteLine("С какой вершины начнем?");
                 int t1 = Convert.ToInt32(Console.ReadLine());
-                ga.fill();
-                ga.BFSv2(t1);
-                ga.pinFS(ga.wereB);
+                System.Console.WriteLine("Кр. путь в незвеш. графе - 1");
+                System.Console.WriteLine("Дейкстра - 2");
+                int choice2 = Convert.ToInt32(Console.ReadLine());
+                switch (choice2)
+                {
+                    case 1:
+                        System.Console.WriteLine("Начало пути");
+                        int start = Convert.ToInt32(Console.ReadLine());
+                        System.Console.WriteLine("Конец пути");
+                        int end = Convert.ToInt32(Console.ReadLine());
+                        ga.away(start, end);
+                    break;
+
+                    case 2:
+                        ga.Dijkstra(t1);
+                        ga.pinFS(ga.road);
+                    break;
+                    
+                    case 10:
+                    ga.weight();
+                    ga.pin(ga.weights);
+                    ga.pinedge();
+                    break;
+                }
             break;
             }        
         
