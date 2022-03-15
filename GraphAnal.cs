@@ -326,7 +326,7 @@ namespace Search1
         }
         return false;
     }
-    private void strong ()
+    public void strong ()
     {
         for (int i = 1; i <= v; i++)
         {
@@ -605,8 +605,12 @@ namespace Search1
             {
                 if (colors[i] != colors[list[i][i1] - 1] )
                 {
-                    listCon[colors[i] - 1].Add(colors[list[i][i1] - 1]);
-                    listCon[colors[i] - 1].Sort();
+                    if (!listCon[colors[i] - 1].Contains(colors[list[i][i1] - 1]))
+                    {
+                        listCon[colors[i] - 1].Add(colors[list[i][i1] - 1]);
+                        listCon[colors[i] - 1].Sort();
+                    }
+                    
                 }
             }
         }

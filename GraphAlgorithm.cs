@@ -6,20 +6,40 @@ namespace Search1
         public List<List<int>> weights = new List<List<int>>();
         private List<bool> wereDej = new List<bool>();
         public List<int> road = new List<int>();
+        public List<List<int>> roadMas = new List<List<int>>();
+        public int[,] next;
+        public int negga;
+        public bool b = false;
+
+        int m = 100000;
         public GraphAlgorithm()
         {
             fill();
             for (int i = 0; i < v; i++)
             {
                 weights.Add(new List<int>());
+                roadMas.Add(new List<int>());
                 for (int i1 = 0; i1 < v; i1++)
                 {
                     weights[i].Add(0);
+                    if (i == i1){
+                        roadMas[i].Add(0);
+                    }
+                    else
+                    {
+                        roadMas[i].Add(m);
+                    }
                 }
             }
+            int[,] lll = new int[v,v];
+            next = lll;
             weight();
+            System.Console.WriteLine("Граф");
             pin(list);
+            System.Console.WriteLine("Вес");
             pin(weights);
+            System.Console.WriteLine(" ");
+            pin(roadMas);
         }
         public void BFSv2(int t, int end)
         {
@@ -70,6 +90,8 @@ namespace Search1
                 for (int i = 0; i < push.Count; i++)
                 {
                     weights[edges[i][0] - 1][edges[i][1] - 1] = push[i];
+                    roadMas[edges[i][0] - 1][edges[i][1] - 1] = push[i];
+                    next[edges[i][0] - 1,edges[i][1] - 1] = edges[i][1];
 
                 }
             };
@@ -98,7 +120,6 @@ namespace Search1
                         
                     }
                 }
-                System.Console.WriteLine($"i = {i}, l = {l}");
                  if (road[l] == 10000000)
                 {
                       break;
@@ -113,5 +134,135 @@ namespace Search1
                 }
             }
         }
+
+
+        public void FordBellmana(int t)
+        {
+            for (int i = 0; i < v; i++)
+            {
+                road.Add(m);
+            }
+            road[t - 1] = 0;
+            for (int i = 0; i < v-1; i++)
+            {
+                for (int i1 = 0; i1 < edge; i1++)
+                {
+                    int u = edges[i1][0] - 1;
+                    int u1 = edges[i1][1] - 1;
+                    if (road[u1] > road[u] + weights[u][u1])
+                    {
+                        road[u1] = road[u] + weights[u][u1];
+                    }
+                }
+            }
+        }
+
+        public void Floyd()
+        {
+            for (int i = 0; i < v; i++)
+            {
+                for (int i1 = 0; i1 < v; i1++)
+                {
+                    for (int i2 = 0; i2 < v; i2++)
+                    {
+                        if (roadMas[i1][i] + roadMas[i][i2] < roadMas[i1][i2])
+                        {
+                            roadMas[i1][i2] = roadMas[i1][i] + roadMas[i][i2];
+                            next[i1,i2] = next[i1,i];
+                        }
+                        for (int i3 = 0; i3 < v; i3++)
+                        {
+                            if (roadMas[i3][i3] < 0)
+                            {
+                                System.Console.WriteLine("Есть отрицательный цикл");
+                                b = true;
+                                break;
+                            }
+                        }
+                        if(b){break;}
+                    }
+                    if(b){break;}
+                }
+                if(b){break;}
+            }
+        }
+
+        public void shortpath(int u, int u1)
+        {
+            if (roadMas[u - 1][u1 - 1] == 0)
+            {
+                System.Console.WriteLine("Пути нет");
+            }
+            int c = u;
+            System.Console.WriteLine(" ");
+            while (c != u1)
+            {
+                System.Console.Write($"{c} --> ");
+                c = next[c - 1, u1 - 1];
+            }
+            System.Console.Write(u1);
+        }
+
+        public void pinMas(ref int[,] road)
+        {
+            for (int i = 0; i < v; i++)
+        {
+            Console.Write("[");
+            for (int i3 = 0; i3 < v; i3++)
+            {
+                int i1 = road[i,i3];
+                Console.Write(i1);
+                Console.Write(", ");
+            }
+            Console.WriteLine("]");
+        }
+        }
+
+        public void beauty()
+        {
+            for (int i = 0; i < v; i++)
+            {
+                for (int i1 = 0; i1 < v; i1++)
+                {
+                    if (roadMas[i][i1] > 10000)
+                    {
+                        roadMas[i][i1] = 0;
+                    }
+                }
+            }
+        }
+
+        public bool negative()
+        {
+            for (int i = 0; i < v; i++)
+            {
+                if (roadMas[i][i] < 0)
+                {
+                    negga = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void negshortpath(int u, int u1)
+        {
+            bool b = true;
+            int c = u - 1;
+            System.Console.WriteLine(" ");
+            while (c != u1)
+            {
+                if(b)
+                {
+                    c++;
+                    b = false;
+                }
+                System.Console.Write($"{c} --> ");
+                c = next[c - 1, u1 - 1];
+            }
+            System.Console.Write(u1);
+        }
+
+
     }
 }
