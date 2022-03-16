@@ -106,6 +106,7 @@ class search1
                 System.Console.WriteLine("Флойд - 4");
                 System.Console.WriteLine("Отрицательный цикл - 5");
                 System.Console.WriteLine("Прим - 6");
+                System.Console.WriteLine("Крускала - 7");
                 int choice2 = Convert.ToInt32(Console.ReadLine());
                 switch (choice2)
                 {
@@ -177,10 +178,13 @@ class search1
                         ga.Prim();
                     break;
 
+                    case 7:
+                        ga.Kruskala();
+                        ga.pin(ga.res);
+                    break;
+
                     case 10:
-                    ga.weight();
-                    ga.pin(ga.weights);
-                    ga.pinedge();
+                    ga.Sort();
                     break;
                 }
             break;
