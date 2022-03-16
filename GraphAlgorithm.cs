@@ -10,8 +10,9 @@ namespace Search1
         public int[,] next;
         public int negga;
         public bool b = false;
+        private bool[] used;
 
-        int m = 100000;
+        int inf = 100000;
         public GraphAlgorithm()
         {
             fill();
@@ -27,12 +28,14 @@ namespace Search1
                     }
                     else
                     {
-                        roadMas[i].Add(m);
+                        roadMas[i].Add(inf);
                     }
                 }
             }
             int[,] lll = new int[v,v];
             next = lll;
+            bool[] bbb = new bool[v];
+            used = bbb;
             weight();
             System.Console.WriteLine("Граф");
             pin(list);
@@ -140,7 +143,7 @@ namespace Search1
         {
             for (int i = 0; i < v; i++)
             {
-                road.Add(m);
+                road.Add(inf);
             }
             road[t - 1] = 0;
             for (int i = 0; i < v-1; i++)
@@ -263,6 +266,50 @@ namespace Search1
             System.Console.Write(u1);
         }
 
+        public void Prim()
+        {
+            int sum = 0;
+            int[] minedg = new int[v];
+            int[] sel = new int[v];
+            for (int i = 0; i < v; i++)
+            {
+                minedg[i] = inf;
+                sel[i] = -1;
+            }
+            minedg[0] = 0;
+            for (int i = 0; i < v; i++)
+            {
+                int ver = -1;
+                for (int i1 = 0; i1 < v; i1++)
+                {
+                    if (!used[i1] && (ver == -1 || minedg[i1] < minedg[ver]))
+                    {
+                        ver = i1;
+                    }
+                }
+                if (minedg[ver] == inf)
+                {
+                    System.Console.WriteLine("Noup");
+                    
+                }
+                used[ver] = true;
+                if(sel[ver] != -1)
+                {
+                    System.Console.WriteLine($"({ver + 1} , {sel[ver] + 1})");
+                    sum += roadMas[ver][sel[ver]];
+                }
+
+                for (int i1 = 0; i1 < v; i1++)
+                {
+                    if(roadMas[ver][i1] < minedg[i1])
+                    {
+                        minedg[i1] = roadMas[ver][i1];
+                        sel[i1] = ver;
+                    }
+                }
+            }
+            System.Console.WriteLine($"Вес = {sum}");
+        }
 
     }
 }

@@ -105,6 +105,7 @@ class search1
                 System.Console.WriteLine("Форда-Беллмона - 3");
                 System.Console.WriteLine("Флойд - 4");
                 System.Console.WriteLine("Отрицательный цикл - 5");
+                System.Console.WriteLine("Прим - 6");
                 int choice2 = Convert.ToInt32(Console.ReadLine());
                 switch (choice2)
                 {
@@ -171,6 +172,11 @@ class search1
                             }
                         }
                     break;
+
+                    case 6:
+                        ga.Prim();
+                    break;
+
                     case 10:
                     ga.weight();
                     ga.pin(ga.weights);
