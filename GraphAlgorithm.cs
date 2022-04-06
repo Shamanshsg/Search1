@@ -14,6 +14,10 @@ namespace Search1
         private bool[] used;
         public int[,] g;
         public int[] parent;
+        public int sum = 0;
+        private int[,] degrees;
+
+        public int[] path;
         Random rand = new Random();
 
         int inf = 100000;
@@ -39,19 +43,26 @@ namespace Search1
                 }
             }
             ed();
-            int[,] g1 = new int[edge,3];
-            g = g1;
-            int[,] lll = new int[v,v];
-            next = lll;
-            bool[] bbb = new bool[v];
-            used = bbb;
+            degrees = new int[v,2];
+            g = new int[edge,3];
+            next = new int[v,v];
+            used = new bool[v];
+            path = new int[v];
+          
             weight();
             System.Console.WriteLine("Граф");
             pin(list);
             System.Console.WriteLine("Вес");
             pin(weights);
             System.Console.WriteLine(" ");
-            pin(roadMas);
+            //for (int i = 0; i < v; i++)
+            // {
+            //     for (int i1 = 0; i1 < v; i1++)
+            //     {
+            //         System.Console.Write(next[i,i1]);
+            //     }
+            //     System.Console.WriteLine();
+            // }
             fillg();
         }
         public void BFSv2(int t, int end)
@@ -93,6 +104,7 @@ namespace Search1
 
         public void weight()
         {
+            //pin(edges);
             List<int> push = new List<int>();
             if (File.Exists("weight.txt"))
             {
@@ -121,7 +133,7 @@ namespace Search1
                 {
                     if (roadMas[i][lol] != inf)
                     {
-                        System.Console.WriteLine($"i = {i} lol = {lol}  i1 = {i1}");
+                        //System.Console.WriteLine($"i = {i} lol = {lol}  i1 = {i1}");
                         g[i1,0] = roadMas[i][lol];
                         g[i1,1] = i + 1;
                         g[i1,2] = lol + 1;
@@ -298,7 +310,7 @@ namespace Search1
 
         public void Prim()
         {
-            int sum = 0;
+            
             int[] minedg = new int[v];
             int[] sel = new int[v];
             for (int i = 0; i < v; i++)
@@ -363,6 +375,7 @@ namespace Search1
                     res.Add(new List<int>());
                     res[pop].Add(g[i,1]);
                     res[pop].Add(g[i,2]);
+                    sum += g[i,0]; 
                     pop++;
                     Unite(a - 1,b - 1);
                 }
@@ -425,5 +438,166 @@ namespace Search1
             lhs = rhs;
             rhs = temp;
         }
+
+        // 0 = входящщяя  1 - выходящщяя
+        public void degree()
+        {
+            int outgo = 0;
+            int incom = 0;
+            for (int i = 1; i <= v; i++)
+            {
+                outgo = 0;
+                incom = 0;
+                for (int i1 = 1; i1 <= v; i1++)
+                {
+                    if (weights[i-1][i1-1] != 0)
+                    {
+                        incom++;
+                    }
+                    if (weights[i1-1][i-1] != 1)
+                    {
+                        outgo++;
+                    }
+                }
+            degrees[i - 1,0] = incom;
+            degrees[i - 1,1] = outgo;
+            }
+            // for (int i = 0; i < v; i++)
+            // {
+            //     System.Console.WriteLine(" ");
+            //     System.Console.Write($"{degrees[i, 0]}  {degrees[i, 0]}");
+            // }
+        }
+        public bool Eulercheck()
+        {
+            int OddV = 0;
+            for (int i = 0; i < v; i++)
+            {
+                if(degrees[i,0]%2 == 1)
+                {
+                    OddV++;
+                }
+            }
+            if(OddV > 2)
+            {
+                return false;
+            }
+            for (int i = 0; i < v; i++)
+            {
+                if (degrees[i,0] > 0)
+                {
+                    DFS(i + 1);
+                    break;
+                }
+            }
+            for (int i = 0; i < v; i++)
+            {
+                if (degrees[i,0]  > 0 && !wereD.Contains(i+1))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public List<int> Euler(int t)
+        {
+            List<List<int>> temp = new List<List<int>>(weights);
+            List<int> stack = new List<int>();
+            stack.Add(t);
+            int i;
+            int cur;
+            List<int> result = new List<int>();
+            while (stack.Count != 0)
+            {
+                cur = stack.Last();
+                i = 0;
+                bool nvite = false;
+                for (i = 0; i < v; i++)
+                {
+                    if (temp[cur][i] != 0)
+                    {
+                        nvite = true;
+                        break;
+                    }
+                }
+                if (i == v && !nvite)
+                {
+                    result.Add(cur + 1);
+                    stack.RemoveAt(stack.Count - 1);
+                } else {
+                    temp[cur][i] = 0;
+                    temp[i][cur] = 0;
+                    stack.Add(i);
+                }
+            }
+            return result;
+        }
+    
+        private bool Path(int t, int p)
+        {
+            if (weights[path[p-1]][t] == 0)
+            {
+                return false;
+            }
+           for (int i = 0; i < p; i++)
+           {
+               if (path[i] == t)
+               {
+                   return false;
+               }
+           }
+            return true;
+        }
+        private bool hamilton(int n){
+                if (n == v)
+                {
+                    if (weights[path[n - 1]][path[0]] != 0)
+                    {
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                for (int i = 0; i < v; i++)
+                {
+                    if (Path(i, n))
+                    {
+                        path[n] = i;
+                        if (hamilton(n + 1))
+                        {
+                            return true;
+                        }
+                        path[n] = -1;
+                    }
+                }
+
+            return false;
+        }
+
+        public void cycle(){
+            for (int i = 0; i < v; i++)
+            {
+                path[i] = -1;
+            }
+            path[0] = 0;
+            if (!hamilton(1))
+            {
+                System.Console.WriteLine("No");
+            } else {
+                printHam();
+            }
+        }
+
+        private void printHam(){
+             for (int i = 0; i < v; i++){
+                Console.Write(" " + (path[i] + 1) + " ");
+             }
+            Console.WriteLine(" " + (path[0] + 1) + " ");
+        }
+    
+    
     }
 }
+
