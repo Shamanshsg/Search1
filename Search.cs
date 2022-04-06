@@ -107,6 +107,8 @@ class search1
                 System.Console.WriteLine("Отрицательный цикл - 5");
                 System.Console.WriteLine("Прим - 6");
                 System.Console.WriteLine("Крускала - 7");
+                System.Console.WriteLine("Эйлеров - 8");
+                System.Console.WriteLine("Гамильтонов - 9");
                 int choice2 = Convert.ToInt32(Console.ReadLine());
                 switch (choice2)
                 {
@@ -145,7 +147,7 @@ class search1
                             int end1 = Convert.ToInt32(Console.ReadLine());
                             ga.shortpath(str,end1);
                             System.Console.WriteLine(" ");
-                            System.Console.WriteLine(ga.roadMas[str - 1][end1  - 1]);
+                            System.Console.WriteLine($"Путь = {ga.roadMas[str - 1][end1  - 1]}");
                         }
                     break;
 
@@ -181,10 +183,29 @@ class search1
                     case 7:
                         ga.Kruskala();
                         ga.pin(ga.res);
+                        System.Console.WriteLine($"Вес = {ga.sum}");
+                    break;
+
+                    case 8:
+                     ga.degree();
+                    if(ga.Eulercheck())
+                    {
+                        System.Console.WriteLine("1");
+                        List<int> result = new List<int>(ga.Euler(0));
+                        ga.pinFS(result);
+                    }   
+                    break;
+
+                    case 9:
+                        ga.cycle();
                     break;
 
                     case 10:
-                    ga.Sort();
+                    ga.degree();
+                    if(ga.Eulercheck())
+                    {
+                        System.Console.WriteLine("1");
+                    }
                     break;
                 }
             break;
